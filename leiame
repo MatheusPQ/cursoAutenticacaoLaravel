@@ -1,0 +1,79 @@
+touch database/database.sqlite
+    Para usar o sqlite. Cria um banco de dados dentro da própria aplicação.
+    Vai pegar o caminho do banco de dados em config/database.php
+    Afinal, não é definido no .env
+    Após, rodar php artisan migrate
+
+    Usar o sqlite3.exe.
+
+http
+    Não mantém estado. Requisições não ficam armazenadas. Quando nova requisição é feita, perde dados da requisição anterior.
+
+sessão
+    Guarda os dados no servidor. (autenticação do user, nome, etc)
+    Cookie da sessão. 
+        Laravel relaciona um cookie (guardado no browser) com uma sessão (no servidor).
+        Vai ser enviado para que p usuário tenha sua identidade estabelecida.
+    Dentro de storage/framework/sessions é armazenado as sessões. (por isso que consegue ir para a página que ele queria ir após fazer o login). Tem o token, id do user, a página que ele tentou ir, etc.
+    O logout basicamente destrói a sessão do usuário.
+
+
+cookies
+    Guardado no browser.
+    'Remember me' aumenta o tempo de expiração do cookie em 5 anos. (nesse caso)
+
+Sessions são configuradas em config/session.php. Por padrão, é sessão em arquivo.
+    lifetime = em minutos.
+    Pode encriptar o arquivo de sessão tbm.
+    Pode alterar o caminho onde é armazenado as sessões (para arquivos)
+    É possível tbm alterar o nome do cookie gerado pelo laravel.
+
+É possível traduzir a aplicação tbm.
+    Biblioteca Laravel-lang
+    composer require caouecs/laravel-lang
+    Ir em vendor/cauoecs/source/pt-br
+        Copiar a pasta
+        Colar ela dentro de resources/lang
+        config/app.php
+            locale => linguagem principal da aplicação.
+            locale => pt-BR (mesmo nome da pasta)
+
+            fallback_locale => caso linguagem não esteja disponível
+            fallback_locale => en (inglês)
+    Na blade, colocar {{trans('auth.password')} (por exemplo)
+    Aí, ir em lang/pt-BR/auth.php e acrescentar o campo 'password' e traduzi-lo
+
+Recuperar senha.
+    mailtrap.
+    no .env
+        MAIL_USERNAME=96cd45355cc86c
+        MAIL_PASSWORD=33d4cf196a9fbd
+        (passados pelo mailtrap, pode variar)
+
+        e
+            APP_URL=http://localhost:8000
+            para poder clicar no botao de resetar no email.
+    Criar notificação para traduzir mensagem no email.
+    php artisan make:notification MyResetPasswordNotification
+        Cria uma nova notificação
+        Fica dentro de app/notifications
+        Deve extender ResetPassword
+            use Illuminate\Auth\Notifications\ResetPassword;
+
+composer require barryvdh/laravel-ide-helper --dev
+    --dev vai registrar a biblioteca apenas para modo de desenvolvimento.
+    App/providers/appserviceprovider
+        Colocar o o if (verifica se está em modo de dev), conforme indicado no github da biblioteca
+    php artisan ide-helper:generate
+        Vai pegar as facades e entende a qual serviço a facade se refere.. ajuda no autocomplete.
+    Ideal é colocar o arquivo gerado no gitignore.
+
+Adicionar um helper 
+    criar o arquivo dentro da pasta app (helpers.php)
+    no composer.json, colocar: 
+        "files":[
+            "app/helpers.php"
+        ],
+    comando: composer dumpautoload
+        Refaz o autoload da aplicação
+    Neste caso, o login.blade, home.blade etc, vai extender o layout retornado do helper.

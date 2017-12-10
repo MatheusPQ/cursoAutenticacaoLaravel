@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\MyResetPasswordNotification;
 
 class User extends Authenticatable
 {
@@ -26,4 +27,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    //Sobrescreve o método da classe CanResetPassword.php (User->CanResetPassword.php)
+    public function sendPasswordResetNotification($token){
+        $this->notify(new MyResetPasswordNotification($token));
+    }
 }
