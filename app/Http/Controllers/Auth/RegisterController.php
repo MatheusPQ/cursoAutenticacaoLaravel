@@ -51,6 +51,8 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'phone' => 'required',
+            'cpf' => 'required|cpf', //cpf vai usar o pacote de validação de cpf instalado (mencionado tb em app/Providers/AppServiceProvider.php)
         ]);
     }
 
@@ -66,6 +68,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'phone' => $data['phone'],
+            'cpf' => $data['cpf']
         ]);
     }
 }

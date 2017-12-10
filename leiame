@@ -77,3 +77,16 @@ Adicionar um helper
     comando: composer dumpautoload
         Refaz o autoload da aplicação
     Neste caso, o login.blade, home.blade etc, vai extender o layout retornado do helper.
+
+composer require doctrine/dbal
+    Caso esteja usando o sqlite e queira adicionar uma nova coluna numa tabela
+
+Alterações no arquivo app/exceptions/Handler.php
+    Ele gerencia todas as exceções lançadas pelo laravel.
+Configurou controller de login
+Descomentou o seeder em DatabaseSeeder (do user) e configurou a factory
+composer require codeedu/code_validator:0.0.2
+    Validação de cpf
+
+Colocou no LoginController a parte de login com múltiplos campos (sobrescrevendo métodos do AuthenticatesUsers)
+É só sobrescrever qualquer método do AuthenticatesUsers para mudar seu comportamento
